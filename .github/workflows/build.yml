@@ -13,8 +13,13 @@ jobs:
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
           pip install buildozer cython
-          echo "y" | sudo apt install -y aidl || true
-          sudo ln -sf /usr/bin/aidl /usr/local/bin/aidl || true
+      - name: Install Build Tools and Aidl
+        run: |
+          mkdir -p $HOME/.buildozer/android/platform/android-sdk/build-tools/37.0.0
+          wget -q https://dl.google.com/android/repository/build-tools_r37-linux.zip -O /tmp/bt.zip
+          unzip -o /tmp/bt.zip -d $HOME/.buildozer/android/platform/android-sdk/
+          find $HOME/.buildozer/platform/android-sdk -name "aidl" -exec chmod +x {} \;
+          find $HOME/.buildozer/platform/android-sdk -name "aidl" -exec sudo ln -sf {} /usr/local/bin/aidl \;
       - name: Build APK
         run: buildozer android debug
       - name: Upload APK
