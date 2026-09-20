@@ -2,6 +2,7 @@
 title = MyApp
 package.name = myapp
 package.domain = org.test
+version = 1.0
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 requirements = python3,kivy,requests,pyjnius,android,python-telegram-bot
