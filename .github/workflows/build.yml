@@ -11,8 +11,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev aidl
+          sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
           pip install buildozer cython
+          echo "y" | sudo apt install -y aidl || true
+          sudo ln -sf /usr/bin/aidl /usr/local/bin/aidl || true
       - name: Build APK
         run: buildozer android debug
       - name: Upload APK
