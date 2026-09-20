@@ -11,16 +11,12 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
+          sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev aidl
           pip install buildozer cython
-      - name: Install Build Tools and Aidl
+      - name: Setup Aidl
         run: |
-          sudo mkdir -p /opt/android-sdk/build-tools/33.0.0
-          sudo wget -q https://dl.google.com/android/repository/build-tools_r33-linux.zip -O /tmp/bt.zip || true
-          sudo unzip -o /tmp/bt.zip -d /opt/android-sdk/build-tools/ || true
-          sudo find /opt/android-sdk -name "aidl" -exec chmod +x {} \; || true
-          sudo find /opt/android-sdk -name "aidl" -exec ln -sf {} /usr/local/bin/aidl \; || true
-          sudo ln -sf /opt/android-sdk/build-tools/33.0.0/aidl /usr/bin/aidl || true
+          sudo ln -sf /usr/bin/aidl /usr/local/bin/aidl
+          echo "PATH=$PATH:/usr/bin:/usr/local/bin" >> $GITHUB_ENV
       - name: Build APK
         run: buildozer android debug
       - name: Upload APK
